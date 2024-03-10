@@ -4,4 +4,4 @@ function getComputerChoice(){
     return Math.floor(Math.random * (max-min+1)) + min;
 }
 
-console.log(getComputerChoice); 
+console.log(this.getComputerChoice()); 
