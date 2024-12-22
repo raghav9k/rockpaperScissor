@@ -1,53 +1,62 @@
-const readline = require('readline');
-
+// Create a function to select a computer option
 function getComputerChoice() {
-  const min = Math.ceil(0);
-  const max = Math.floor(2);
-  const choice = Math.floor(Math.random() * (max - min + 1)) + min;
-  const items = ["rock", "paper", "scissor"];
-  return items[choice];
+  let randomInt = Math.floor(Math.random() * 3); // returns 0, 1, or 2
+  if (randomInt === 0) {
+    return "rock";
+  } else if (randomInt === 1) {
+    return "paper";
+  } else if (randomInt === 2) {
+    return "scissors";
+  }
 }
+// Create a function to get a user option
+function getUserChoice() {
+  let userChoice = prompt("Rock, paper, or scissors?");
+  const options = ["rock", 'paper', 'scissors'];
+  while (options.indexOf(userChoice.toLowerCase()) === -1) {
+    alert("not a valid option. Please select rock, paper, or scissors");
+    userChoice = prompt("Rock, paper, or scissors?");
+  }
+    return userChoice.toLowerCase();
+  }
 
-function playRound(user, computer) {
-  user = user.toLowerCase();
-  computer = computer.toLowerCase();
-  if (user === computer) {
-    console.log("It's a tie!");
-  } else if (
-    (user === "rock" && computer === "scissor") ||
-    (user === "scissor" && computer === "paper") ||
-    (user === "paper" && computer === "rock")
-  ) {
-    console.log(`You win! ${computer} beats ${user}`);
-  } else {
-    console.log(`You lose! ${user} beats ${computer}`);
+// Create a function to play a round
+function playRound() {
+  let userChoice = getUserChoice();
+  let computerChoice = getComputerChoice();
+  if ((userChoice == "rock") && (computerChoice == "paper")) {
+    computerScore++;
+    alert(`You lose. ${computerChoice} beats ${userChoice}.`);
+  } else if ((userChoice == "paper") && (computerChoice == "scissors")) {
+    computerScore++;
+    alert(`You lose. ${computerChoice} beats ${userChoice}.`);
+  } else if ((userChoice == "scissors") && (computerChoice == "rock")) {
+    computerScore++;
+    alert(`You lose. ${computerChoice} beats ${userChoice}.`);
+  } else if ((userChoice == "rock") && (computerChoice == "scissors")) {
+    userScore++;
+    alert(`You win! ${userChoice} beats ${computerChoice}.`);
+  } else if ((userChoice == "paper") && (computerChoice == "rock")) {
+    userScore++;
+    alert(`You win! ${userChoice} beats ${computerChoice}.`);
+  } else if ((userChoice == "scissors") && (computerChoice == "paper")) {
+    userScore++;
+    alert(`You win! ${userChoice} beats ${computerChoice}.`);
+  } else if (userChoice == computerChoice) {
+    alert("It's a tie!")
   }
 }
 
-function getUserChoice() {
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-  });
-
-  return new Promise((resolve) => {
-    rl.question('Enter your choice (rock, paper, or scissors): ', (choice) => {
-      const validChoice = choice.toLowerCase().trim();
-      if (validChoice === 'rock' || validChoice === 'paper' || validChoice === 'scissors') {
-        resolve(validChoice);
-        rl.close();
-      } else {
-        console.log('Invalid choice. Please enter "rock", "paper", or "scissors".');
-        getUserChoice().then(resolve);
-      }
-    });
-  });
+// Create function to play the entire game
+function playGame(numberOfRounds=5) {
+  userScore = 0;
+  computerScore = 0;
+  while (numberOfRounds > 0) {
+    playRound();
+    numberOfRounds--;
+  }
+  alert(`Final score: User: ${userScore}, Computer: ${computerScore}`);
 }
 
-async function playGame() {
-  const userChoice = await getUserChoice();
-  const computerChoice = getComputerChoice();
-  playRound(userChoice, computerChoice);
-}
-
+// Call the playGame function
 playGame();

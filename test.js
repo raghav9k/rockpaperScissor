@@ -1,4 +1,4 @@
-require ('@jest/globals');
+// require ('@jest/globals');
 const { getUserChoice, getComputerChoice, playRound } = require('./external');
 
 const { describe, it, expect } = require('jest');
